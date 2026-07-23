@@ -14,22 +14,22 @@ class Subscription(SubscriptionCreate, table=True):
 
 
 class UserBase(SQLModel):
-	name: str
-	email: str
+	name: str = Field(max_length=255)
+	email: str = Field(max_length=255)
 
 
 class User(UserBase, table=True):
 	id: int | None = Field(default=None, primary_key=True)
-	password: str
+	password: str = Field(max_length=255)
 
 
 class UserCreate(UserBase):
-	password: str 
+	password: str = Field(max_length=255)
 
 
 class ReadHistory(SQLModel, table=True):
 	id: int | None = Field(default=None, primary_key=True)
 	user_id: int = Field(foreign_key="user.id")
-	article_title: str
-	article_url: str = Field(unique=True)
+	article_title: str = Field(max_length=255)
+	article_url: str = Field(unique=True, max_length=255)
 	read_at: datetime 

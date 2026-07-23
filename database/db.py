@@ -6,13 +6,12 @@ from typing import Annotated
 from fastapi import Depends, BackgroundTasks
 import os 
 
-sqlite_url = os.getenv("DATABASE_URL", "sqlite+aiosqlite:///PersonalNews.db")
-connection_args = {"check_same_thread": False}
-engine = create_async_engine(sqlite_url, echo=True, future=True, connect_args=connection_args)
+postgresql_url = os.getenv("DATABASE_URL", "postgresql+asyncpg://postgres:1427109t531@localhost:5432/PersonalNews")
+engine = create_async_engine(postgresql_url, echo=True, future=True)
 
 async_session_maker: async_sessionmaker[AsyncSession] = async_sessionmaker(
     engine, 
-    expire_on_commit=False, 
+    expire_on_commit=False, #hello
     class_=AsyncSession
 )
 @asynccontextmanager

@@ -8,6 +8,8 @@ import time
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
 import os 
+from PersonalNews.schemas.user_topic import *
+
 @asynccontextmanager
 async def lifespan(app:FastAPI):
 	async with create_db() as db:
