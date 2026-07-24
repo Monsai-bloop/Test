@@ -6,14 +6,18 @@ import json
 import sys 
 import os 
 
+host_url = os.getenv("REDIS_URL")
 class CacheData():
 	def __init__(self, host=None, port=None, db=None):
-		self.redis = aiosync.Redis(
-			host=host or settings.REDIS_HOST,
-      port=port or settings.REDIS_PORT,
-      db=db or settings.REDIS_DB,
-      decode_responses=True
-			)
+		if host_url:
+			self.redis = aiosync.Redis.from_url(host_url, decode_responses=True)
+		else:
+			self.redis = aiosync.Redis(
+				host=host or settings.REDIS_HOST,
+      	port=port or settings.REDIS_PORT,
+      	db=db or settings.REDIS_DB,
+      	decode_responses=True
+				)
 		
 	def _generatekey(self, user_id: int, topic: str):
 		return f"user:{user_id}:topic:{topic}"

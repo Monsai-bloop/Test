@@ -32,4 +32,5 @@ class ReadHistory(SQLModel, table=True):
 	user_id: int = Field(foreign_key="user.id")
 	article_title: str = Field(max_length=255)
 	article_url: str = Field(unique=True, max_length=255)
-	read_at: datetime 
+	read_at: datetime
+

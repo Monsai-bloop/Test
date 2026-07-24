@@ -1,4 +1,4 @@
-from PersonalNews.database.db import create_db, SessionDep
+from PersonalNews.database.db import engine 
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, Response
 from PersonalNews.routers.subscriptions import subscription_router
@@ -12,8 +12,10 @@ from PersonalNews.schemas.user_topic import *
 
 @asynccontextmanager
 async def lifespan(app:FastAPI):
-	async with create_db() as db:
-		yield db 
+
+	yield
+	
+	await engine.dispose()
 
 LOG_FILE = os.getenv("LOG_FILE", "message_log.txt")
 app = FastAPI(lifespan=lifespan)
