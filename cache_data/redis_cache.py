@@ -6,7 +6,7 @@ import json
 import sys 
 import os 
 
-host_url = os.getenv("REDIS_URL")
+host_url = os.getenv("REDIS_URL_NEWS", "redis://localhost:6379/0")
 class CacheData():
 	def __init__(self, host=None, port=None, db=None):
 		if host_url:

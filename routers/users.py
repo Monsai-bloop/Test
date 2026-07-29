@@ -1,11 +1,12 @@
-from fastapi import APIRouter, Depends, Security, Response, Header
+from fastapi import APIRouter, Depends, Security, Response, Header, BackgroundTasks
 from typing import Annotated
 from PersonalNews.schemas.user_topic import *
 from PersonalNews.safety.auth_user import login_for_access_token, Token, get_current_user, oauth2_scheme, get_cached_password
 from PersonalNews.database.db import SessionDep
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlmodel import select
-
+import asyncio
+from PersonalNews.celery_tasks import send_email
 users_router = APIRouter(
 	prefix="/user",
 	tags=["users"]
@@ -14,6 +15,9 @@ users_router = APIRouter(
 
 auth_users_router = APIRouter(dependencies=[Depends(get_current_user)])
 
+async def send_message(message):
+	await asyncio.sleep(2)
+	print(message)
 
 @users_router.post("/create", status_code=201)
 async def create_user(user: UserCreate, session: SessionDep):
@@ -41,8 +45,9 @@ async def login(
 
 
 @auth_users_router.get("/user")
-async def get_user_data(current_user: Annotated[User, Depends(get_current_user)], response: Response):
+async def get_user_data(current_user: Annotated[User, Depends(get_current_user)], response: Response, bg_tasks: BackgroundTasks):
 	response.headers["X-Client-Version"] = "hello"
+	send_email.delay("hello") #type: ignore
 	return current_user
 
 

@@ -12,10 +12,13 @@ class Settings(BaseSettings):
 	REDIS_HOST: str
 	REDIS_PORT: int
 	REDIS_DB: int
+	REDIS_URL: str = "redis://localhost:6379/0"
 	CURRENT_URL: str
 
-	
 
 
 settings = Settings()
 
+broker_url = settings.REDIS_URL
+result_backend = settings.REDIS_URL
+broker_connection_retry_on_startup = True
