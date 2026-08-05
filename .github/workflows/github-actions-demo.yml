@@ -9,6 +9,8 @@ on:
         required: false
         default: 'development'
         type: string
+  repository_dispatch:
+    types: [build-and-test, deploy-trigger]
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
