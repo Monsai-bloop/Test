@@ -1,19 +1,13 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: 
+name: My deploy training
+run-name: Deploy to ${{ github.actor }}
+on:
   push:
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: 'hello'
-        required: false
-        default: 'development'
-        type: string
-  repository_dispatch:
-    types: [build-and-test, deploy-trigger]
+    branches: [main, 'feature/**']
+env:
+  DAY_OF_WEEK: Monday
 jobs:
-  say-hello:
+  prod-check:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
-      - name: Print a message
-        run: echo 'Hello world'
+      - run: echo "hello world $DAY_OF_WEEK"
