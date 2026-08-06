@@ -7,7 +7,7 @@ jobs:
     steps:
       - name: doing some jujutsu
         run: echo "hello world" > "file"
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: file
           path: file.txt
@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: job_1
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: file
       - run: cat file.txt
