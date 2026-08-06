@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: doing some jujutsu
-        run: echo "hello world" > "file"
+        run: echo "hello world" > "file.txt"
       - uses: actions/upload-artifact@v4
         with:
           name: file
