@@ -1,13 +1,24 @@
-name: My deploy training
-run-name: Deploy to ${{ github.actor }}
-on:
-  push:
-    branches: [main, 'feature/**']
-env:
-  DAY_OF_WEEK: Monday
+name: share data between jobs
+on: push
 jobs:
-  prod-check:
-    if: github.ref == 'refs/heads/main'
+  job_1:
+    name: saving
     runs-on: ubuntu-latest
     steps:
-      - run: echo "hello world $DAY_OF_WEEK"
+      - name: doing some jujutsu
+        run: echo "hello world" > "file"
+      - uses: actions/upload-artifact@v2
+        with:
+          name: file
+          path: file.txt
+  job_2:
+    name: reading
+    runs-on: ubuntu-latest
+    needs: job_1
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: file
+      - run: cat file.txt
+        
+        
