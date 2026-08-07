@@ -30,5 +30,4 @@ jobs:
           
       - name: run tests
         run: |
-          export PYTHONPATH=$(dirname $(find . -type d -name "PersonalNews" -print -quit))
           pytest -v
