@@ -1,5 +1,7 @@
-from sqlmodel import SQLModel
 import os 
+import sys 
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+from sqlmodel import SQLModel
 import pytest
 import pytest_asyncio
 from httpx import AsyncClient, ASGITransport
