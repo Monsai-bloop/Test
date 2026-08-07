@@ -6,9 +6,9 @@ import pytest_asyncio
 from httpx import AsyncClient, ASGITransport
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 from sqlmodel.ext.asyncio.session import AsyncSession 
-from PersonalNews.main import app
-from PersonalNews.database.db import get_session
-from PersonalNews.cache_data.redis_cache import CacheData
+from main import app
+from database.db import get_session
+from cache_data.redis_cache import CacheData
 
 
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite+aiosqlite:///./test.db")

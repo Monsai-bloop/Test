@@ -2,9 +2,9 @@ import pytest
 from unittest.mock import patch
 from redis import asyncio as aioredis
 from unittest.mock import AsyncMock
-from PersonalNews.cache_data.redis_cache import cache_info
+from cache_data.redis_cache import cache_info
 from typing import cast, Dict, Any
-from PersonalNews.fetch_api.news_fetch import news_api_data
+from fetch_api.news_fetch import news_api_data
 
 @pytest.mark.asyncio
 async def test_client_register(client):
