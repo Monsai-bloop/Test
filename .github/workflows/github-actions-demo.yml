@@ -29,6 +29,6 @@ jobs:
           pip install -r requirements.txt
           
       - name: run tests
-        env:
-          PYTHONPATH: .\PersonalNews
-        run: pytest -v
+        run: |
+          export PYTHONPATH=$(dirname $(find . -type d -name "PersonalNews" -print -quit))
+          pytest -v
