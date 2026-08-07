@@ -6,7 +6,7 @@ from PersonalNews.database.db import SessionDep
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlmodel import select
 import asyncio
-from PersonalNews.celery_tasks import send_email
+from PersonalNews.tasks import send_email
 users_router = APIRouter(
 	prefix="/user",
 	tags=["users"]

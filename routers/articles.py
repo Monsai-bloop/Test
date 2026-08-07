@@ -35,8 +35,11 @@ async def get_articles(current_user: Annotated[User, Depends(get_current_user)],
 	if not topics:
 		return {"articles": []}
 	
-	cache_tasks = [cache_info.get_cached_article(current_user.id, topic) for topic in topics]
-	cached_results = await asyncio.gather(*cache_tasks, return_exceptions=True)
+	async with asyncio.TaskGroup() as tg:
+		for topic in topics:
+			tg.create_task(cache_info.get_cached_article(current_user.id, topic))
+	cached_results = [t.result() for t in tg._tasks]
+
 
 	final_articles = []
 	api_tasks = []
@@ -50,7 +53,10 @@ async def get_articles(current_user: Annotated[User, Depends(get_current_user)],
 			api_tasks.append(fetch_singe_topic(topic))
 
 	if api_tasks:
-		api_result = await asyncio.gather(*api_tasks, return_exceptions=True)
+		async with asyncio.TaskGroup() as tg2:
+			for api_task in api_tasks:
+				tg.create_task(api_task)
+		api_result = [t.result() for t in tg2._tasks]
 
 		save_tasks = []
 		for topic, api_data in zip(topics_to_fetch, api_result):
